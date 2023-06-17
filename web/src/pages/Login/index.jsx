@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import './Login.css';
+import { api } from '../../lib/api';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,8 +15,27 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setLogin({ ...login, [name]: value });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const { email, password } = login;
+    setIsLoading(true);
+    api.get(`/users/${email}/${password}`).then((response) => {
+      const { data } = response;
+      
+      setIsLoading(false);
+    });
+    setError(null);
+  };
+
   return (
-    <form className='bg-purple-200 w-64'>
+    <form className='bg-purple-200 w-64' onSubmit={handleSubmit}>
       <div className='field'>
         <p className='control has-icons-left'>
           <input
@@ -23,13 +44,13 @@ export default function Login() {
             data-testid='email-input'
             name='email'
             value={login.email}
+            onChange={handleChange}
           />
           <span className='icon is-small is-left'>
             <i className='fas fa-envelope' />
           </span>
         </p>
       </div>
-
       <div className='field'>
         <p className='control has-icons-left'>
           <input
@@ -38,6 +59,7 @@ export default function Login() {
             data-testid='password-input'
             name='password'
             value={login.password}
+            onChange={handleChange}
           />
           <span className='icon is-small is-left'>
             <i className='fas fa-lock' />
@@ -50,7 +72,7 @@ export default function Login() {
             ? 'button is-link is-loading is-responsive is-rounded'
             : 'button is-link is-rounded'
         }
-        type='button'
+        type='submit'
         data-testid='btn-play'
         // disabled={ }
       >
