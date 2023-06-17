@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import './Login.css';
 import { api } from '../../lib/api';
+import { addUser } from '../../redux/slicer/slice';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -26,11 +27,17 @@ export default function Login() {
     event.preventDefault();
     const { email, password } = login;
     setIsLoading(true);
-    api.get(`/users/${email}/${password}`).then((response) => {
-      const { data } = response;
-      
-      setIsLoading(false);
-    });
+    api
+      .get(`/users/${email}/${password}`)
+      .then((response) => {
+        dispatch(addUser(response.data));
+        setIsLoading(false);
+        navigate('/welcome');
+      })
+      .catch((err) => {
+        setError(err.response.data.error);
+        setIsLoading(false);
+      });
     setError(null);
   };
 
