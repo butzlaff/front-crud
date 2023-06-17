@@ -10,6 +10,13 @@ const Table = () => {
     });
   };
 
+  const handleDelete = (id) => {
+    api.delete(`/users/${id}`).then((_response) => {
+      // alert(response.data.message);
+      getAllUsers();
+    });
+  };
+
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -34,13 +41,18 @@ const Table = () => {
               <td>{user.email}</td>
               <td>{user.password}</td>
               <td>
-                <input type='checkbox' checked={user.isAdmin} />
+                <input type='checkbox' checked={user.idAdmin} />
               </td>
               <td>
                 <button className='button is-warning'>Editar</button>
               </td>
               <td>
-                <button className='button is-danger'>Excluir</button>
+                <button
+                  className='button is-danger'
+                  onClick={() => handleDelete(user.id)}
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}

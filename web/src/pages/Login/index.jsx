@@ -89,7 +89,7 @@ export default function Login() {
         className='button is-link is-rounded'
         type='button'
         data-testid='btn-play'
-        // disabled={ }
+        onClick={() => navigate('/createuser')}
       >
         Criar cadastro
       </button>

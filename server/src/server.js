@@ -1,14 +1,18 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { loginRouter } from './routes/loginRouter.js';
+import { userRouter } from './routes/userRouter.js';
 
-const app = fastify();
+const app = fastify({
+  logger: true,
+});
 
 app.register(cors, {
   origin: ['http://localhost:5173'],
 });
 
 app.register(loginRouter);
+app.register(userRouter);
 
 app.setErrorHandler((error, req, res) => {
   console.log(error);

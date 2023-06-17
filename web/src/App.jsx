@@ -8,6 +8,7 @@ const router = createBrowserRouter([
   { path: '/', Component: Login },
   { path: '/welcome', Component: Welcome }, // 🆕
   { path: '/createuser', Component: CreateUser }, // 🆕
+  { path: '/*', Component: () => <div>Not Found</div> },
 ]);
 
 function App() {

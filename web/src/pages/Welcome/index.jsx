@@ -30,7 +30,11 @@ const Welcome = () => {
   return (
     <div>
       <h1>{`Welcome ${name}`}</h1>
-      {isAdmin && <button className='button is-primary'>Exibir Users</button>}
+      {isAdmin && (
+        <button className='button is-primary' onClick={toogleUsers}>
+          Exibir Users
+        </button>
+      )}
       <button className='button is-danger' onClick={fakeLogout}>
         Sair
       </button>
